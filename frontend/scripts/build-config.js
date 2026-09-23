@@ -3,6 +3,7 @@ const path = require("path");
 
 const apiBaseUrl =
     process.env.API_BASE_URL ||
+    process.env.VITE_API_BASE_URL ||
     process.env.VITE_API_URL ||
     "";
 

@@ -28,6 +28,7 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/error").permitAll()
                         .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
                         .requestMatchers("/", "/index.html", "/login.html", "/register.html",
                                 "/dashboard.html", "/styles.css", "/auth.js", "/config.js").permitAll()
