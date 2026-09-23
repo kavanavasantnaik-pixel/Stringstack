@@ -5,7 +5,7 @@ const apiBaseUrl =
     process.env.API_BASE_URL ||
     process.env.VITE_API_BASE_URL ||
     process.env.VITE_API_URL ||
-    "";
+    "https://stringstack-api.onrender.com";
 
 const content = "window.API_BASE_URL = " + JSON.stringify(apiBaseUrl) + ";\n";
 const target = path.join(__dirname, "..", "public", "config.js");
