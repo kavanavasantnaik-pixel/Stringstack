@@ -1,5 +1,7 @@
 package com.stringstack.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +16,8 @@ import java.util.stream.Collectors;
 @Configuration
 public class WebConfig {
 
+    private static final Logger log = LoggerFactory.getLogger(WebConfig.class);
+
     @Value("${app.cors.allowed-origins}")
     private String allowedOrigins;
 
@@ -23,6 +27,8 @@ public class WebConfig {
                 .map(String::trim)
                 .filter(origin -> !origin.isEmpty())
                 .collect(Collectors.toList());
+
+        log.info("Configured CORS allowed origins: {}", origins);
 
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(origins);
