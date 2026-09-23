@@ -1,0 +1,5 @@
+{
+  "buildCommand": "node frontend/scripts/build-config.js",
+  "outputDirectory": "frontend/public",
+  "cleanUrls": true
+}
