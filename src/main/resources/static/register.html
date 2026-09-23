@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Stringstack</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="card">
+        <h1>Create your account</h1>
+        <p class="muted">Join Stringstack</p>
+
+        <form id="registerForm">
+            <label for="firstName">First name</label>
+            <input type="text" id="firstName" name="firstName" required autocomplete="given-name">
+
+            <label for="lastName">Last name</label>
+            <input type="text" id="lastName" name="lastName" required autocomplete="family-name">
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required autocomplete="email">
+
+            <label for="password">Password (at least 8 characters)</label>
+            <input type="password" id="password" name="password" minlength="8" required autocomplete="new-password">
+
+            <p id="formError" class="error" hidden></p>
+
+            <button type="submit">Create account</button>
+        </form>
+
+        <p class="muted">Already have an account? <a href="login.html">Log in</a></p>
+    </main>
+
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        const registerForm = document.getElementById("registerForm");
+        const formError = document.getElementById("formError");
+
+        registerForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            formError.hidden = true;
+
+            const payload = Object.fromEntries(new FormData(registerForm));
+
+            try {
+                await postJson("/api/auth/register", payload);
+                window.location.href = "login.html";
+            } catch (error) {
+                if (error.status === 409) {
+                    showError(formError, "That email is already registered.");
+                } else if (error.status === 400) {
+                    showError(formError, "Check your input: all fields are required and the password must be at least 8 characters.");
+                } else {
+                    showError(formError, "Something went wrong. Please try again.");
+                }
+            }
+        });
+    </script>
+</body>
+</html>

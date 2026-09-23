@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stringstack</title>
+</head>
+<body>
+    <script>
+        const token = localStorage.getItem("token");
+        window.location.replace(token ? "dashboard.html" : "login.html");
+    </script>
+</body>
+</html>
