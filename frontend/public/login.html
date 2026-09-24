@@ -46,9 +46,11 @@
                 if (error.status === 401) {
                     showError(formError, "Invalid email or password.");
                 } else if (error.status === 400) {
-                    showError(formError, "Please enter your email and password.");
+                    showError(formError, error.body?.message || "Please enter your email and password.");
+                } else if (error.status === null) {
+                    showError(formError, "Could not reach the backend. Check that the API is online (network or CORS error).");
                 } else {
-                    showError(formError, "Something went wrong. Please try again.");
+                    showError(formError, "Something went wrong (" + error.status + "). " + (error.body?.message || "Please try again."));
                 }
             }
         });

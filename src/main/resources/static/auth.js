@@ -11,15 +11,28 @@ function apiUrl(path) {
 }
 
 async function postJson(path, body) {
-    const response = await fetch(apiUrl(path), {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
-    });
+    let response;
+    try {
+        response = await fetch(apiUrl(path), {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        });
+    } catch (networkError) {
+        const error = new Error("Could not reach the API");
+        error.status = null;
+        error.body = null;
+        throw error;
+    }
 
     if (!response.ok) {
         const error = new Error("Request failed");
         error.status = response.status;
+        try {
+            error.body = await response.json();
+        } catch (parseError) {
+            error.body = null;
+        }
         throw error;
     }
 
